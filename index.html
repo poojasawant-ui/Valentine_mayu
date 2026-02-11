@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Journey</title>
+    <style>
+        :root {
+            --romance-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+            --text-dark: #590d22;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--soft-pink);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 { font-size: 2rem; margin-bottom: 1rem; }
+        p { font-size: 1.2rem; margin-bottom: 2rem; }
+
+        .btn {
+            background-color: var(--romance-pink);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover { transform: scale(1.05); }
+
+        #no-btn {
+            background-color: #ccc;
+            position: absolute;
+        }
+
+        .hidden { display: none; }
+
+        .emoji { font-size: 4rem; display: block; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="main-card">
+        <div id="content-area">
+            <span class="emoji">🌹</span>
+            <h1>Happy Rose Day!</h1>
+            <p>Starting this week with a virtual rose for someone special.</p>
+            <button class="btn" onclick="nextPage(1)">Next Day ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        const days = [
+            { emoji: "🌹", title: "Happy Rose Day!", text: "A rose to show how much I care." },
+            { emoji: "💍", title: "Happy Propose Day!", text: "Will you stay by my side forever?" },
+            { emoji: "🍫", title: "Happy Chocolate Day!", text: "To the sweetest person I know." },
+            { emoji: "🧸", title: "Happy Teddy Day!", text: "A big warm hug in the form of a bear." },
+            { emoji: "🤝", title: "Happy Promise Day!", text: "I promise to always be there for you." },
+            { emoji: "🫂", title: "Happy Hug Day!", text: "Wrapping you in warmth today." },
+            { emoji: "💋", title: "Happy Kiss Day!", text: "Sending lots of love your way." },
+            { emoji: "❤️", title: "Valentine's Day", text: "Will you be my Valentine?", isFinal: true }
+        ];
+
+        let currentDay = 0;
+
+        function nextPage(index) {
+            currentDay = index;
+            const content = document.getElementById('content-area');
+            const data = days[currentDay];
+
+            if (data.isFinal) {
+                renderFinalPage();
+            } else {
+                content.innerHTML = `
+                    <span class="emoji">${data.emoji}</span>
+                    <h1>${data.title}</h1>
+                    <p>${data.text}</p>
+                    <button class="btn" onclick="nextPage(${currentDay + 1})">Next Day ❤️</button>
+                `;
+            }
+        }
+
+        function renderFinalPage() {
+            const content = document.getElementById('main-card');
+            content.innerHTML = `
+                <span class="emoji">💝</span>
+                <h1>Will you be my Valentine?</h1>
+                <p>Please say yes!</p>
+                <div style="height: 100px; position: relative;">
+                    <button class="btn" onclick="celebrate()">YES</button>
+                    <button class="btn" id="no-btn" onmouseover="moveNoButton()">NO</button>
+                </div>
+            `;
+        }
+
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            // Move the button to a random position within the card
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 100 - 50;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function celebrate() {
+            const content = document.getElementById('main-card');
+            content.innerHTML = `
+                <span class="emoji">🎉</span>
+                <h1>Yay! ❤️</h1>
+                <p>You've made me the happiest person! I love you!</p>
+            `;
+            // Optional: Add confetti logic here
+        }
+    </script>
+</body>
+</html>
